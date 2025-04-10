@@ -51,6 +51,7 @@ dependencies {
         testImplementation "org.junit.vintage:junit-vintage-engine:${junit_vintage_engine_version}"
         implementation "ch.qos.logback:logback-classic:${logback_classic_version}"
         testImplementation "org.assertj:assertj-core:${assertj_core_version}"
+        implementation 'io.github.bonigarcia:webdrivermanager:5.8.0'
     }
 }
 
