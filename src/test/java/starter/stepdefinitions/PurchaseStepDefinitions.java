@@ -1,27 +1,27 @@
 package starter.stepdefinitions;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import net.serenitybdd.screenplay.actions.Open;
-import net.serenitybdd.screenplay.ensure.Ensure;
-import net.serenitybdd.screenplay.waits.WaitUntil;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.actors.OnlineCast;
+import net.serenitybdd.screenplay.ensure.Ensure;
+import net.serenitybdd.screenplay.waits.WaitUntil;
 import starter.purchase.questions.OrderConfirmation;
 import starter.purchase.tasks.*;
 import starter.purchase.ui.SaucedemoPage;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.List;
-
 import java.util.Map;
 
-import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isVisible;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorCalled;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorInTheSpotlight;
+import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isVisible;
 
 public class PurchaseStepDefinitions {
 
@@ -34,6 +34,7 @@ public class PurchaseStepDefinitions {
     public void i_login_as_with_password(String username, String password) {
         theActorCalled(username).attemptsTo(
                 Open.url("https://www.saucedemo.com"),
+
                 WaitUntil.the(SaucedemoPage.USERNAME_FIELD, isVisible()).forNoMoreThan(10).seconds(),
                 Login.withCredentials(username, password)
         );
@@ -60,7 +61,6 @@ public class PurchaseStepDefinitions {
         );
     }
 
-
     @When("I enter my checkout information from file {string} for user {int}")
     public void enter_checkout_info_from_file(String filename, int userIndex) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
@@ -70,11 +70,10 @@ public class PurchaseStepDefinitions {
         // Leer todos los usuarios
         List<Map<String, String>> users = mapper.readValue(file, List.class);
 
-        // Seleccionar el usuario por su índice
+
         if (userIndex >= 0 && userIndex < users.size()) {
             Map<String, String> user = users.get(userIndex);
 
-            // Aquí se llama a la tarea para completar la compra con la información del usuario seleccionado
             theActorInTheSpotlight().attemptsTo(
                     CompletePurchase.withInfo(user)
             );

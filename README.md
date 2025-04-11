@@ -1,28 +1,29 @@
 
 # Empezando con Serenity, Cucumber y Saucedemo
 
-Este proyecto demuestra cómo usar **Serenity BDD** en combinación con **Cucumber** para automatizar las pruebas end-to-end de una aplicación de comercio electrónico real, **Saucedemo**. Este repositorio contiene un conjunto de pruebas automatizadas para simular el flujo de compra en el sitio web de Saucedemo, permitiéndote explorar el proceso de automatización de pruebas en un contexto real.
+Este proyecto demuestra cómo usar **Serenity BDD** en combinación con **Cucumber** para automatizar las pruebas end-to-end de una aplicación de comercio electrónico real. 
+Este repositorio contiene un conjunto de pruebas automatizadas para simular el flujo de compra en el sitio web de Saucedemo, permitiéndo explorar el proceso de automatización de pruebas.
 
 ## Tecnologías y Versiones Requeridas
 
-- **JDK**: 11 o superior
-- **Gradle**: 7.6.1 (también puedes usar Maven 3.9.1 si prefieres)
-- **Serenity BDD**: Versión 3.x (asegúrate de especificar la versión)
-- **Cucumber**: Versión 6.x
+- **JDK**: 16 o superior
+- **Gradle**: 7.6.1.
+- **Serenity BDD**: Versión 4.2.13
+- **Cucumber**: Versión 7.20.1
 - **WebDriverManager**: Para manejar los drivers automáticamente
 
 ## Requisitos Previos
 
-Antes de ejecutar las pruebas, asegúrate de tener lo siguiente instalado:
+Antes de ejecutar las pruebas, se requiere tener instalado lo siguiente:
 
-- **Java** (JDK 11 o superior)
-- **Gradle** o **Maven** (para construir y ejecutar las pruebas)
+- **Java** (JDK 16 o superior)
+- **Gradle**
 - **Serenity BDD** (integrado en el proyecto)
 - **Cucumber** (integrado con Serenity)
 
 ## Configuración del Proyecto
 
-1. Clona este repositorio o descarga el proyecto.
+1. Clona este repositorio o descarga el proyecto. https://github.com/Xaler01/e2e-saucedemo-screnplay.git
 2. Navega al directorio del proyecto.
 3. Usa los siguientes comandos para construir y ejecutar las pruebas:
 
