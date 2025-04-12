@@ -11,7 +11,10 @@ import net.serenitybdd.screenplay.actors.OnlineCast;
 import net.serenitybdd.screenplay.ensure.Ensure;
 import net.serenitybdd.screenplay.waits.WaitUntil;
 import starter.purchase.questions.OrderConfirmation;
-import starter.purchase.tasks.*;
+import starter.purchase.tasks.AddToCart;
+import starter.purchase.tasks.Checkout;
+import starter.purchase.tasks.CompletePurchase;
+import starter.purchase.tasks.Login;
 import starter.purchase.ui.SaucedemoPage;
 
 import java.io.File;
