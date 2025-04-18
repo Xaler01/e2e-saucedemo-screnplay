@@ -1,20 +1,13 @@
-# src/test/resources/features/purchase/purchase_flow.feature
-Feature: Saucedemo Purchase Flow
-  As a standard user
-  I want to complete a purchase
-  So I can verify the e-commerce flow
+Feature: Saucedemo Purchase Flow with JSON
 
-  Scenario: Complete purchase with two products
-    Given I login as "standard_user" with password "secret_sauce"
-    When I add the first two products to the cart
+  Scenario Outline: Complete purchase for <userKey> with checkout index <index>
+    Given I login as user "<userKey>"
+    When I add the listed products for user "<userKey>"
     And I view my cart
     And I proceed to checkout
-    And I enter my checkout information from file "users.json" for user <userIndex>
-    Then I should see the order confirmation "Thank you for your order!"
+    And I enter checkout data for user "<userKey>" and index <index>
+    Then I should see the confirmation for user "<userKey>"
 
     Examples:
-      | userIndex |
-      | 0         |
-      | 1         |
-      | 2         |
-      | 3         |
+      | userKey        | index |
+      | standard_user  | 0     |

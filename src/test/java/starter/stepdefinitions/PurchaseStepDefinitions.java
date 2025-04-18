@@ -1,5 +1,6 @@
 package starter.stepdefinitions;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -16,9 +17,9 @@ import starter.purchase.tasks.Checkout;
 import starter.purchase.tasks.CompletePurchase;
 import starter.purchase.tasks.Login;
 import starter.purchase.ui.SaucedemoPage;
+import starter.purchase.utils.PurchaseDataReader;
 
-import java.io.File;
-import java.nio.file.Paths;
+
 import java.util.List;
 import java.util.Map;
 
@@ -33,20 +34,30 @@ public class PurchaseStepDefinitions {
         OnStage.setTheStage(new OnlineCast());
     }
 
-    @Given("I login as {string} with password {string}")
-    public void i_login_as_with_password(String username, String password) {
+    @Given("I login as user {string}")
+    public void i_login_as_user(String userKey) throws Exception {
+        JsonNode userData = PurchaseDataReader.getUserData(userKey);
+        String username = userData.get("username").asText();
+        String password = userData.get("password").asText();
+
         theActorCalled(username).attemptsTo(
                 Open.url("https://www.saucedemo.com"),
-
                 WaitUntil.the(SaucedemoPage.USERNAME_FIELD, isVisible()).forNoMoreThan(10).seconds(),
                 Login.withCredentials(username, password)
         );
     }
 
-    @When("I add the first two products to the cart")
-    public void i_add_the_first_two_products_to_the_cart() {
+    @When("I add the listed products for user {string}")
+    public void i_add_products_for_user(String userKey) throws Exception {
+        JsonNode userData = PurchaseDataReader.getUserData(userKey);
+        ObjectMapper mapper = new ObjectMapper();
+        List<String> products = mapper.convertValue(
+                userData.get("products"),
+                new com.fasterxml.jackson.core.type.TypeReference<List<String>>() {}
+        );
+
         theActorInTheSpotlight().attemptsTo(
-                AddToCart.twoProducts()
+                AddToCart.fromList(products)
         );
     }
 
@@ -64,29 +75,24 @@ public class PurchaseStepDefinitions {
         );
     }
 
-    @When("I enter my checkout information from file {string} for user {int}")
-    public void enter_checkout_info_from_file(String filename, int userIndex) throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        // Ruta del archivo JSON con los diferentes datos
-        File file = Paths.get("src", "test", "resources", "test-data", filename).toFile();
+    @When("I enter checkout data for user {string} and index {int}")
+    public void i_enter_checkout_data(String userKey, int index) throws Exception {
+        List<Map<String, String>> checkoutList = PurchaseDataReader.getCheckoutList(userKey);
 
-        // Leer todos los usuarios
-        List<Map<String, String>> users = mapper.readValue(file, List.class);
-
-
-        if (userIndex >= 0 && userIndex < users.size()) {
-            Map<String, String> user = users.get(userIndex);
-
+        if (index < checkoutList.size()) {
             theActorInTheSpotlight().attemptsTo(
-                    CompletePurchase.withInfo(user)
+                    CompletePurchase.withInfo(checkoutList.get(index))
             );
         } else {
-            throw new IllegalArgumentException("Invalid user index: " + userIndex);
+            throw new IllegalArgumentException("Invalid index for checkoutData");
         }
     }
 
-    @Then("I should see the order confirmation {string}")
-    public void i_should_see_the_order_confirmation(String expectedMessage) {
+    @Then("I should see the confirmation for user {string}")
+    public void i_should_see_confirmation(String userKey) throws Exception {
+        JsonNode userData = PurchaseDataReader.getUserData(userKey);
+        String expectedMessage = userData.get("confirmationMessage").asText();
+
         theActorInTheSpotlight().attemptsTo(
                 Ensure.that(OrderConfirmation.message()).contains(expectedMessage)
         );

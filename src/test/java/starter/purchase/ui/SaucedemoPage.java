@@ -9,10 +9,12 @@ public class SaucedemoPage {
             .locatedBy("#password");
     public static final Target LOGIN_BUTTON = Target.the("login button")
             .locatedBy("#login-button");
-    public static final Target PRODUCT_1 = Target.the("first product")
-            .locatedBy("(//button[contains(@id,'add-to-cart')])[1]");
-    public static final Target PRODUCT_2 = Target.the("second product")
-            .locatedBy("(//button[contains(@id,'add-to-cart')])[2]");
+
+    public static Target addToCartButtonFor(String productName) {
+        return Target.the("Add to cart button for " + productName)
+                .locatedBy("//div[text()='{0}']/ancestor::div[@class='inventory_item']//button")
+                .of(productName);
+    }
     public static final Target CART_BUTTON = Target.the("cart button")
             .locatedBy(".shopping_cart_link");
     public static final Target CHECKOUT_BUTTON = Target.the("checkout button")
@@ -34,6 +36,4 @@ public class SaucedemoPage {
             .locatedBy("//button[@id='finish']");
     public static final Target CONFIRMATION_MESSAGE = Target.the("confirmation message")
             .locatedBy(".complete-header");
-
-
 }
