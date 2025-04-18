@@ -67,7 +67,7 @@ src
 │   ├── java                      # Código de pruebas y lógica Screenplay
 │   └── resources
 │       ├── features             # Escenarios Gherkin
-│       └── test-data            # Archivo users.json
+│       └── test-data            # Archivo purchase-data.json
 build.gradle
 serenity.conf
 ```
@@ -76,29 +76,26 @@ serenity.conf
 
 ## 📄 Datos externos (JSON)
 
-El archivo `purchase-data.json` permite parametrizar los datos de checkout:
+El archivo `purchase-data.json` permite parametrizar los datos de checkout e ingresar tantos productos como se requiera en la prueba. Este archivo se encuentra en la carpeta `src/test/resources/test-data`.
 
 ```json
 {
   "standard_user": {
     "username": "standard_user",
     "password": "secret_sauce",
-    "products": [
+    "products": [ 
       "Sauce Labs Backpack",
       "Sauce Labs Bike Light",
-      "Sauce Labs Bolt T-Shirt"
+      "Sauce Labs Bolt T-Shirt",
+      "Sauce Labs Fleece Jacket",
+      "Sauce Labs Onesie"
     ],
     "confirmationMessage": "Thank you for your order!",
     "checkoutData": [
       {
-        "firstName": "Jane",
-        "lastName": "Smith",
-        "zipCode": "67890"
-      },
-      {
-        "firstName": "John",
-        "lastName": "Doe",
-        "zipCode": "12345"
+        "firstName": "Alexander",
+        "lastName": "Jacome",
+        "zipCode": "17035"
       }
     ]
   }
@@ -127,12 +124,6 @@ open target/site/serenity/index.html
 
 Las pruebas siguen el patrón **Screenplay**, en el que un "actor" realiza tareas definidas como objetos. Ejemplo de tarea:
 
-```java
-theActorCalled("standard_user").attemptsTo(
-    Open.url("https://www.saucedemo.com"),
-    Login.withCredentials("standard_user", "secret_sauce")
-);
-```
 
 Esto permite una alta legibilidad, reutilización de código y mantenimiento sencillo.
 
